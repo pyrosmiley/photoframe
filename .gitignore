@@ -1,0 +1,5 @@
+__pycache__/
+deprecated/
+scratch.py
+*.pyc
+config_private.py
