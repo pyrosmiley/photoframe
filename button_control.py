@@ -1,15 +1,16 @@
 #!/usr/bin/env python
 
-#it may not be the most "proper" way but gpiozero is a very easy-to-use library. Importing RPi.GPIO just in case signal bouncing is noticed.
-import gpiozero
-import RPi.GPIO as GPIO
-import subprocess
-import psutil
-from signal import pause
 import os
-from pykeyboard import PyKeyboard
+import subprocess
 import sys
-from time import sleep
+from signal import pause
+import schedule
+
+# it may not be the most "proper" way but gpiozero is a very easy-to-use library.
+import gpiozero
+import psutil
+from pykeyboard import PyKeyboard
+import frameconfig as config
 
 file_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(file_dir)
@@ -17,12 +18,18 @@ sys.path.append(file_dir)
 
 
 path = "/home/pi/Documents/photoframe"
-help_path = '/home/pi/Documents/photoframe/helpfiles' 
+help_path = '/home/pi/Documents/photoframe/helpfiles'
 
-power_button = gpiozero.Button(3, bounce_time=0.1)
-slideshow_button = gpiozero.Button(6, bounce_time=0.1)
-update_button = gpiozero.Button(5, bounce_time=0.1)
-help_button = gpiozero.Button(19, bounce_time=0.1)
+# power_button = gpiozero.Button(3, bounce_time=0.1)
+# slideshow_button = gpiozero.Button(6, bounce_time=0.1)
+# update_button = gpiozero.Button(5, bounce_time=0.1)
+# help_button = gpiozero.Button(19, bounce_time=0.1)
+
+power_button = config.power_button
+slideshow_button = config.slideshow_button
+update_button = config.update_button
+help_button = config.help_button
+screen = config.screen_power
 
 #led = gpiozero.RGBLED(red=21,green=20,blue=16)
 
@@ -108,7 +115,7 @@ def manual_update():
 
 
 os.chdir(file_dir)
-#show_start()
+show_start()
 
 power_button.when_pressed = power_off 
 

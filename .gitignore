@@ -3,3 +3,5 @@ deprecated/
 scratch.py
 *.pyc
 config_private.py
+.idea/
+.project
