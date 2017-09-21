@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" autoUpload="Always" promptOnRemoteOverwrite="CHECK_CONTENT" serverName="Pi 2" deleteMissingItems="true" createEmptyFolders="true" autoUploadExternalChanges="true" notifyRemoteChanges="true" compareModeInSync="TIMESTAMP">
+  <component name="PublishConfigData" autoUpload="Always" promptOnRemoteOverwrite="CHECK_CONTENT" serverName="Pi 2" deleteMissingItems="true" createEmptyFolders="true" uploadOnCheckin="d6f49b7f-19e4-4d01-9a9c-8e7fe529952c" autoUploadExternalChanges="true" notifyRemoteChanges="true" compareModeInSync="TIMESTAMP">
     <serverData>
       <paths name="Pi 2">
         <serverdata>
@@ -13,6 +13,7 @@
         </serverdata>
       </paths>
     </serverData>
+    <option name="myUploadOnCheckinName" value="Pi 2" />
     <option name="myAutoUpload" value="ALWAYS" />
   </component>
 </project>

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import os
 import subprocess
@@ -10,7 +10,8 @@ import schedule
 import gpiozero
 import psutil
 from pykeyboard import PyKeyboard
-import frameconfig as config
+import config
+import display
 
 file_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(file_dir)
@@ -20,10 +21,6 @@ sys.path.append(file_dir)
 path = "/home/pi/Documents/photoframe"
 help_path = '/home/pi/Documents/photoframe/helpfiles'
 
-# power_button = gpiozero.Button(3, bounce_time=0.1)
-# slideshow_button = gpiozero.Button(6, bounce_time=0.1)
-# update_button = gpiozero.Button(5, bounce_time=0.1)
-# help_button = gpiozero.Button(19, bounce_time=0.1)
 
 power_button = config.power_button
 slideshow_button = config.slideshow_button
@@ -31,7 +28,7 @@ update_button = config.update_button
 help_button = config.help_button
 screen = config.screen_power
 
-#led = gpiozero.RGBLED(red=21,green=20,blue=16)
+led = config.led
 
 press_count = 0 
 
@@ -49,8 +46,12 @@ except:
 # edited once deployed to the init.d folder.
 #===============================================================================
 
+
 def power_off():
-    subprocess.call(['shutdown', '-h', 'now'], shell=False)
+    #####
+    display.toggle()
+    #####
+    os.system("/sbin/shutdown -h now")
     
     
 def sys_update() :    
@@ -58,7 +59,7 @@ def sys_update() :
 
 def show_start():
     os.system(os.path.join(path, "./slideshow_start.sh"))
-#    led.pulse(on_color=(0,0.75,0),n=3,background=True) 
+    led.pulse(on_color=(0,0.75,0),n=3,background=True)
     
     
 def show_stop():
@@ -68,11 +69,10 @@ def show_stop():
 #As there are multiple python process running, need to determine if the slideshow is active or not. 
 #If it is active, script will collect its PID and stop it. If not, it will start. 
 def slide_toggle():
-    global pid
     try:
-        pid = subprocess.check_output(['pgrep', '-f', 'python pictureframe.py'], shell=False, stderr=subprocess.STDOUT)
+        pid = int(subprocess.check_output(['pidof', 'python', 'pictureframe.py']).decode("utf-8"))
         print("Checking for currently running slideshow process.")
-    except subprocess.CalledProcessError as pid:
+    except subprocess.CalledProcessError as e:
         pid = 0
         print(">>>No slideshow process found.")
     if pid > 0:
@@ -80,7 +80,7 @@ def slide_toggle():
         print(">>>Stopping slideshow. Process ID is {}.".format(pid))
     else:
         show_start ()
-        print(">>>Starting show. PID value {} indicates no show running.".format(pid))      
+        print(">>>Starting show. PID value {} indicates no show running.".format(pid))
 
 #Help screens are image files found in path defined above. Use feh to present slides. Use PyKeyboard to simulate space bar 
 #iff the feh process is currently running, and count the number of presses to restart the main show after help is exited.
@@ -115,6 +115,11 @@ def manual_update():
 
 
 os.chdir(file_dir)
+
+####----TEMP----####
+display.toggle()
+####----TEMP----####
+
 show_start()
 
 power_button.when_pressed = power_off 

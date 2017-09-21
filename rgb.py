@@ -1,37 +1,24 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
-from gpiozero import RGBLED
-from gpiozero import Button
 from time import sleep
 from signal import pause
+from config import led, speed
 
-
-led = RGBLED(red=21,green=20,blue=16)
-switch = Button(24)
-
-x = 1
-y = 0.0025
-
-
-
-#led.color = (0,1,1)
-#sleep(5)
 
 def rainbow():
-    while switch.is_pressed == True:
         for n in range(100):
             led.color = (n/100,(100-n)/100,0)
-            sleep(y)
+            sleep(speed)
         for n in range(100):
             led.color =  ((100-n)/100,0,n/100)
-            sleep(y)
+            sleep(speed)
         for n in range(100): 
             led.color = (0,n/100,(100-n)/100)
-            sleep(y)  
+            sleep(speed)
     else:
         led.color = (0,0,0)
 
-switch.when_pressed = rainbow
+
 
 
     

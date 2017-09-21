@@ -2,6 +2,9 @@ __pycache__/
 deprecated/
 scratch.py
 *.pyc
-config_private.py
+keys.py
 .idea/
 .project
+/button_control.py.bak
+.idea/
+shaders/
