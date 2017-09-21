@@ -10,21 +10,22 @@ import random, time, os
 import sys
 sys.path.insert(1, '/home/pi/pi3d')
 import pi3d
+import config
 
 ########################################################################
 # set the user variables here
 ########################################################################
 PIC_DIR = '/home/pi/Pictures/flickr' # for filtering subdirectories
                # and file names alter lines c. 52 and 56 below
-TMDELAY = 15.0  # time between slides This needs to be big enough for
+TMDELAY = config.display_time  # time between slides This needs to be big enough for
                # texture loading and fading
-FPS = 20       # animation frames per second
-FADE_TM = 3.0  # time for fading
+FPS = config.framerate       # animation frames per second
+FADE_TM = config.fade_time  # time for fading
 TK = False     # set to true to run in tk window (have to start x server)
 MIPMAP = True  # whether to anti-alias map screen pixels to image pixels
                # set False if no scaling required (faster, less memory needed)
-SHUFFLE = True # randomly shuffle the pictures
-PPS = 1        # how many pictures to show before changing shader
+SHUFFLE = config.shuffle # randomly shuffle the pictures
+PPS = config.PPS        # how many pictures to show before changing shader
 CHKNUM = 30    # number of picture between re-loading file list
 ########################################################################
 # Where the aspect ratio of the image is different from the monitor the
@@ -79,12 +80,20 @@ if TK:
   win.update()
 #else:
 #  mykeys = pi3d.Keyboard() # don't need this for picture frame but useful for testing
- 
-shader = [#pi3d.Shader("shaders/blend_star"),
-          #pi3d.Shader("shaders/blend_holes"),
-          #pi3d.Shader("shaders/blend_false"),
-          #pi3d.Shader("shaders/blend_burn"),
-          pi3d.Shader("shaders/blend_bump")]
+
+
+# filter shaders based on user configuration. At least one filter must be declared as True in config.py!
+shader_list = [pi3d.Shader("shaders/blend_bump"),
+          pi3d.Shader("shaders/blend_star"),
+          pi3d.Shader("shaders/blend_holes"),
+          pi3d.Shader("shaders/blend_false"),
+          pi3d.Shader("shaders/blend_burn")]
+
+selection = [config.fade, config.star, config.holes, config.false, config.burn]
+
+shader = [i for (i, v) in zip(shader_list, selection) if v]
+
+
 num_sh = len(shader)
 
 iFiles, nFi = get_files()

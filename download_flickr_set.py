@@ -17,7 +17,7 @@ SET_ID = keys.F_SET_ID
 
 led = config.led
 
-bright = 0.5  # LED brightness
+bright = config.bright  # LED brightness
 blink = 1 if len(sys.argv) > 1 else 0
 
 
