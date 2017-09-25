@@ -15,7 +15,7 @@ import config
 ########################################################################
 # set the user variables here
 ########################################################################
-PIC_DIR = '/home/pi/Pictures/flickr' # for filtering subdirectories
+PIC_DIR = config.p_path # for filtering subdirectories
                # and file names alter lines c. 52 and 56 below
 TMDELAY = config.display_time  # time between slides This needs to be big enough for
                # texture loading and fading
