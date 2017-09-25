@@ -4,11 +4,14 @@ import flickrapi
 import requests
 import os
 import sys
-import re
+from re import match
 from multiprocessing import Process, Event, Lock
 import config
 import keys
 from time import sleep
+
+
+p_dir = config.p_path
 
 FLICKR_KEY = keys.F_API_KEY
 FLICKR_SECRET = keys.F_SECRET
@@ -54,24 +57,26 @@ def main():
         count += 1
 
         url, filename = make_url(photo.attrib)
-        path = '/home/pi/Pictures/flickr/%s' % filename
+        path = "{}/{}".format(p_dir,filename)
+    #check to see if file already exists
         try:
             os.stat(path)
             print(" ---> Already have {}".format(url))
             flash(bright, bright, 0)  # yellow
-
+    #download content and save to new image file
         except:
             print(" ---> Downloading {}".format(url))
             flash(bright * 0.75, 0, bright)  # purple
             r = requests.get(url)
-            with open("{}".format(path), 'w+') as image_file:
+            with open("{}".format(path), 'w') as image_file:
                 image_file.write("{}".format(r.content))
                 update = True
+                print(path)
         sleep(0.2)
     sleep(3)
 
     # check to see if it needs to remove photos from folder
-    filelist = os.listdir("/home/pi/Pictures/flickr")
+    filelist = os.listdir(p_dir)
     if count < len(filelist):
         print(" ---> Removing photos")
         flash(bright, 0, 0)  # red
@@ -80,13 +85,13 @@ def main():
             print(f)
             for pic in pics:
                 url, filename = make_url(pic.attrib)
-                matchObj = re.match(f, filename)
+                matchObj = match(f, filename)
                 if matchObj:
                     print(" ---> Found {}, matched {}".format(f, filename))
                     break
             else:
                 print(" ---> Deleting {}".format(f))
-                os.remove("/home/pi/Pictures/flickr/{}".format(f))
+                os.remove("{}/{}".format(p_dir,f))
                 update = True
     sleep(0.5)
 
@@ -94,8 +99,8 @@ def main():
     print(">>>done")
     if update == True and blink == 1:
         print(" ---> Restarting slideshow")
-        os.system("/home/pi/Documents/photoframe/slideshow_stop.sh")
-        os.system("/home/pi/Documents/photoframe/slideshow_start.sh")
+        os.system("{}/slideshow_stop.sh".format(config.file_dir))
+        os.system("{}/slideshow_start.sh".format(config.file_dir))
     else:
         print("~fin~")
 
