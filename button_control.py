@@ -118,7 +118,7 @@ def manual_update():
 
 if __name__ == "__main__":
 
-    show_start()
+    if config.startup: show_start()
 
     power_button.when_pressed = power_off
 

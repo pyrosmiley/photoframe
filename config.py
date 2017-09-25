@@ -33,6 +33,7 @@ p_path = (file_dir + "/photos")
 
 
 #SLIDESHOW SETTINGS:
+startup = True   #start show automatically on startup? True or False
 display_time = 15.0   # seconds to display each photo
 fade_time = 3   # transition length. must be shorter than 1/2 of the display time
 shuffle = True   # shuffle photos?
