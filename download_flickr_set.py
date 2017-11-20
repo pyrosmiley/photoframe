@@ -1,5 +1,15 @@
 #!/usr/bin/env python3
 
+# download_flickr_set.py
+
+"""Check specified Flickr album and synchronize with designated photos directory. All variables pull from config.py
+and keys.py, so this WILL NOT WORK if not set properly over there. Also assumes usage of a common-anode RGB LED, which
+is meant as an indicator for currently running process, but will flash ONLY if called manually via button push, or
+with the argument '1' when called from command line."""
+
+# Heavily modified but based very much on Jarvl's at https://gist.github.com/Jarvl/3799acac27283f80641d57804faac9ae
+# ...which in turn is a fixed version of this instructable: http://www.instructables.com/id/Internet-Photo-Frame/
+
 import flickrapi
 import requests
 import os

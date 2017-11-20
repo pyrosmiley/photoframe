@@ -1,5 +1,15 @@
 #!/usr/bin/python
 
+# pictureframe.py
+
+"""
+Uses the shaders found in the 'Shaders' directory as transitions in a slide show. Opens a new X display, loads photo,
+processes transition at specified framerate, and cycles to next image in (potentially randomized) list. Modified
+slightly for this project (e.g. to move config options and alter script names) but largely the same as the original
+pi3d demo found at https://github.com/pi3d/pi3d_demos/blob/master/PictureFrame.py by the excellent pi3d team. All credit
+for the actual real part of the code goes to them.
+"""
+
 from __future__ import absolute_import, division, print_function, unicode_literals
 """This demo shows the use of special transition shaders on the Canvas 
 shape for 2D drawing.
