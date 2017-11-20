@@ -68,8 +68,9 @@ def main():
             print(" ---> Downloading {}".format(url))
             flash(bright * 0.75, 0, bright)  # purple
             r = requests.get(url)
-            with open("{}".format(path), 'w') as image_file:
-                image_file.write("{}".format(r.content))
+            with open("{}".format(path), 'wb') as imageFile:
+                for chunk in r.iter_content(100000):
+                    imageFile.write(chunk)
                 update = True
                 print(path)
         sleep(0.2)
