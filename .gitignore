@@ -7,3 +7,6 @@ keys.py
 .project
 /button_control.py.bak
 shaders/
+photos/*
+!photos/readme.md
+scrat.py

@@ -2,25 +2,16 @@
 
 import os
 import subprocess
-import sys
 from signal import pause
 import schedule
 
-# it may not be the most "proper" way but gpiozero is a very easy-to-use library.
-import gpiozero
 import psutil
 from pykeyboard import PyKeyboard
 import config
-import display
+import display_control
 
-file_dir = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(file_dir)
-
-
-
-path = "/home/pi/Documents/photoframe"
-help_path = '/home/pi/Documents/photoframe/helpfiles'
-
+path = config.file_dir
+help_path = (path + "/helpfiles")
 
 power_button = config.power_button
 slideshow_button = config.slideshow_button
@@ -30,44 +21,47 @@ screen = config.screen_power
 
 led = config.led
 
-press_count = 0 
+press_count = 0
 
-#use PyKeyboard module to simulate spacebar for help menu progression
+# use PyKeyboard module to simulate spacebar for help menu progression
 try:
     key = PyKeyboard()
 except:
     key = 0
-#===============================================================================
+
+
+# ===============================================================================
 # BUTTON FUNCTIONS:
 # Script will listen for button presses 
 # then call appropriate function for each.
 # I'm trying to limit the amount of coding in this script 
 # for changeability, since this service cannot be
 # edited once deployed to the init.d folder.
-#===============================================================================
+# ===============================================================================
 
 
 def power_off():
     #####
-    display.toggle()
+    display_control.toggle()
     #####
     os.system("/sbin/shutdown -h now")
-    
-    
-def sys_update() :    
+
+
+def sys_update():
     os.system("python frame_update.py")
+
 
 def show_start():
     os.system(os.path.join(path, "./slideshow_start.sh"))
-    led.pulse(on_color=(0,0.75,0),n=3,background=True)
-    
-    
+    led.pulse(on_color=(0, 0.75, 0), n=3, background=True)
+
+
 def show_stop():
     os.system("./slideshow_stop.sh")
-   
-    
-#As there are multiple python process running, need to determine if the slideshow is active or not. 
-#If it is active, script will collect its PID and stop it. If not, it will start. 
+
+
+# As there are multiple python process running, need to determine if the slideshow is active or not.
+# If it is active, script will collect its PID and stop it. If not, it will start.
 def slide_toggle():
     try:
         pid = int(subprocess.check_output(['pidof', 'python', 'pictureframe.py']).decode("utf-8"))
@@ -79,17 +73,18 @@ def slide_toggle():
         show_stop()
         print(">>>Stopping slideshow. Process ID is {}.".format(pid))
     else:
-        show_start ()
+        show_start()
         print(">>>Starting show. PID value {} indicates no show running.".format(pid))
 
-#Help screens are image files found in path defined above. Use feh to present slides. Use PyKeyboard to simulate space bar 
-#iff the feh process is currently running, and count the number of presses to restart the main show after help is exited.
+
+# Help screens are image files found in path defined above. Use feh to present slides. Use PyKeyboard to simulate space bar
+# iff the feh process is currently running, and count the number of presses to restart the main show after help is exited.
 
 def show_help():
     global press_count
     num_slides = len(os.listdir(help_path))
     help_active = False
-    
+
     for proc in psutil.process_iter():
         if proc.name() == "feh":
             help_active = True
@@ -97,40 +92,42 @@ def show_help():
             pass
     if help_active == True:
         if press_count < num_slides:
-            key.tap_key('space')    # DOES NOT WORK OVER SSH 
-            press_count += 1 
+            key.tap_key('space')  # DOES NOT WORK OVER SSH
+            press_count += 1
             print("slide count: {}    press count: {}".format(num_slides, press_count))
         else:
             key.tap_key('space')
             press_count = 0
             show_start()
-    else:             
+    else:
         show_stop()
         os.system("./help_slides.sh")
-        press_count += 1 
+        press_count += 1
+
 
 def manual_update():
-    subprocess.call(['python', '{}/download_flickr_set.py'.format(path), '1', '&'], shell=False)
-    #download_flickr_set()
+    subprocess.call(['python3', '{}/download_flickr_set.py'.format(path), '1', '&'], shell=False)
+    # download_flickr_set()
 
 
-os.chdir(file_dir)
+#os.chdir(file_dir)
 
 ####----TEMP----####
-display.toggle()
+#display_control.toggle()
 ####----TEMP----####
 
-show_start()
+if __name__ == "__main__":
 
-power_button.when_pressed = power_off 
+    if config.startup: show_start()
 
-slideshow_button.when_pressed = slide_toggle
+    power_button.when_pressed = power_off
 
-help_button.when_pressed = show_help
+    slideshow_button.when_pressed = slide_toggle
 
-#update_sys_button.when_pressed = sys_update
+    help_button.when_pressed = show_help
 
-update_button.when_pressed = manual_update
+    # update_sys_button.when_pressed = sys_update
 
-pause()
+    update_button.when_pressed = manual_update
 
+    pause()
