@@ -1,0 +1,30 @@
+#! /bin/sh
+
+### BEGIN INIT INFO
+# Provides:          button_control.py
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     4 5
+# Default-Stop:      0 1 6
+### END INIT INFO
+
+#to be placed in /etc/init.d/
+#register with 'sudo update-rc.d button_service.sh defaults'
+
+# Carry out specific functions when asked to by the system
+case "$1" in
+  start)
+    echo "Starting Button Control Service"
+    /home/pi/photoframe/button_control.py &
+    ;;
+  stop)
+    echo "Stopping Button control Service"
+    pkill -f /home/pi/photoframe/button_control.py
+    ;;
+  *)
+    echo "Usage: /etc/init.d/button_service.sh {start|stop}"
+    exit 1
+    ;;
+esac
+
+exit 0
