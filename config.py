@@ -10,10 +10,10 @@ sys.path.append(file_dir)
 ### GPIO PIN LOCATIONS: ###
 
 power_button = gpiozero.Button(3, bounce_time=0.1)
-slideshow_button = gpiozero.Button(6, bounce_time=0.1)
-update_button = gpiozero.Button(5, bounce_time=0.1)
-help_button = gpiozero.Button(19, bounce_time=0.1)
-screen_power = gpiozero.OutputDevice(22)
+slideshow_button = gpiozero.Button(7, bounce_time=0.1)
+update_button = gpiozero.Button(25, bounce_time=0.1)
+help_button = gpiozero.Button(8, bounce_time=0.1)
+screen_power = gpiozero.OutputDevice(5)
 
 led = gpiozero.RGBLED(red=21,green=20,blue=16)
 
