@@ -40,8 +40,12 @@ sudo pip3 install psutil
 #set up private keys.py file:
 cp keys.sample.py keys.py
 
+#make shell scripts executable:
+sudo chmod u+x slideshow_start.sh slideshow_stop.sh
+
 #System configuration:
 sudo raspi-config # set gpu_mem=128
+#disable autosleep
 
 #Write data to LXDE-pi/autostart and copy file
 
