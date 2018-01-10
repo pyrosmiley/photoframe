@@ -26,16 +26,21 @@ esac
 echo ">>>Checking for system dependencies"
 sudo apt-get install python3 python3-setuptools libjpeg-dev zlib1g-dev libpng12-dev libfreetype6-dev
 sudo apt-get install python3-pip
+sudo apt-get install unclutter
 
 #Install python dependencies:
 sudo pip install pi3d
 sudo pip3 install Pillow
-sudo pip install PyUserInput
+sudo pip3 install PyUserInput
 sudo pip3 install gpiozero
 sudo pip3 install flickrapi
 sudo pip3 install requests
+sudo pip3 install psutil
 
-#Allocate more memory to graphics:
+#set up private keys.py file:
+cp keys.sample.py keys.py
+
+#System configuration:
 sudo raspi-config # set gpu_mem=128
 
 #Write data to LXDE-pi/autostart and copy file

@@ -3,8 +3,6 @@
 import os
 import subprocess
 from signal import pause
-#import schedule
-
 import psutil
 from pykeyboard import PyKeyboard
 import config
