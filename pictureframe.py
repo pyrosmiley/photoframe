@@ -17,8 +17,8 @@ shape for 2D drawing.
 import random, time, os
 # if pi3d isn't installed as a module then you will need..
 #import demo # only needed if pi3d not 'installed'. Does the same as..
-import sys
-sys.path.insert(1, '/home/pi/pi3d')
+#import sys
+#sys.path.insert(1, '/home/pi/pi3d')
 import pi3d
 import config
 

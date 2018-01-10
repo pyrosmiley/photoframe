@@ -23,8 +23,20 @@ esac
 #Determine install location:
 
 #Install system dependencies:
+echo ">>>Checking for system dependencies"
+sudo apt-get install python3 python3-setuptools libjpeg-dev zlib1g-dev libpng12-dev libfreetype6-dev
+sudo apt-get install python3-pip
 
 #Install python dependencies:
+sudo pip install pi3d
+sudo pip3 install Pillow
+sudo pip install PyUserInput
+sudo pip3 install gpiozero
+sudo pip3 install flickrapi
+sudo pip3 install requests
+
+#Allocate more memory to graphics:
+sudo raspi-config # set gpu_mem=128
 
 #Write data to LXDE-pi/autostart and copy file
 
