@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-import schedule
+#import schedule
 import time
 import config
 
