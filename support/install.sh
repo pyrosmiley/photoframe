@@ -48,7 +48,7 @@ sudo raspi-config # set gpu_mem=128
 #disable autosleep
 
 #Write data to LXDE-pi/autostart and copy file
-##Configure systemd --user to enable keep_alive
+##Configure systemd --user to enable keep_alive instad of starting once 
 
 #Write data to init.d and install service
 echo ">>>Installing Button Input Daemon..."
