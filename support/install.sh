@@ -48,6 +48,7 @@ sudo raspi-config # set gpu_mem=128
 #disable autosleep
 
 #Write data to LXDE-pi/autostart and copy file
+##Configure systemd --user to enable keep_alive
 
 #Write data to init.d and install service
 echo ">>>Installing Button Input Daemon..."
@@ -62,6 +63,3 @@ echo "Success"
 
 #Initial Photo Download:
 echo "Attempting initial photo download"
-
-
-
